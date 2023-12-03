@@ -11,5 +11,11 @@
     <artifactId>01-placeorder</artifactId>
     <description>订单服务</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

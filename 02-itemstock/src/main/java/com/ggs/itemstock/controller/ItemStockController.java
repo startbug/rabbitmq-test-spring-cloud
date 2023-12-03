@@ -14,8 +14,10 @@ public class ItemStockController {
     public static int stock = 10;
 
     @GetMapping("/decr")
-    public void desc() {
+    public void desc() throws InterruptedException {
+        Thread.sleep(400);
         stock--;
+        System.out.println("商品库存扣减成功");
         if (stock < 0) {
             throw new RuntimeException("商品库存不足");
         }

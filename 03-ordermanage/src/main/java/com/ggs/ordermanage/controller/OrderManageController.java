@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderManageController {
 
     @GetMapping("/create")
-    public void create() {
+    public void create() throws InterruptedException {
+        Thread.sleep(400);
         System.out.printf("创建订单成功");
     }
 

@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.ggs.placeorder.clients")
 public class PlaceOrderApplication {
 
     public static void main(String[] args) {
