@@ -5,9 +5,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ggs.userpoints.config.RabbitMQConfig;
+import com.ggs.userpoints.service.UserPointsIdempotentService;
 import com.rabbitmq.client.Channel;
 
 /**
@@ -18,11 +20,12 @@ import com.rabbitmq.client.Channel;
 @Component
 public class UserPointsListener {
 
+    @Autowired
+    private UserPointsIdempotentService userPointsIdempotentService;
+
     @RabbitListener(queues = {RabbitMQConfig.USER_POINTS_QUEUE})
     public void consume(String msg, Channel channel, Message message) throws InterruptedException, IOException {
-        // 预扣除优惠券
-        TimeUnit.MILLISECONDS.sleep(400);
-        System.out.println("扣除用户积分成功!!!" + msg);
+        userPointsIdempotentService.consume(message);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 

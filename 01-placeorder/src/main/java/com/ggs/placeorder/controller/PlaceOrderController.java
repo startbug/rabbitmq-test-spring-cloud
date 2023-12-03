@@ -1,5 +1,12 @@
 package com.ggs.placeorder.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +18,7 @@ import com.ggs.placeorder.clients.ItemStockClient;
 import com.ggs.placeorder.clients.OrderManageClient;
 import com.ggs.placeorder.clients.UserPointsClient;
 import com.ggs.placeorder.config.RabbitMQConfig;
+import com.ggs.placeorder.util.GlobalCache;
 
 /**
  * @Author starbug
@@ -88,8 +96,19 @@ public class PlaceOrderController {
 //        businessClient.notifyBusiness();
         String msg = "用户信息&优惠券信息&订单信息等等....";
 
+        // 声明当前消息的id标识
+//        String msgId = UUID.randomUUID().toString().replaceAll("-", "");
+        String msgId = "dslkfjldskjflkajofiuwoierj";
+        // 消息的内容自己封装
+        Map<String, Object> map = new HashMap();
+        map.put("message", msg);
+        map.put("exchange", RabbitMQConfig.PLACE_ORDER_EXCHANGE);
+        map.put("routingKey", "");
+        map.put("sendTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        // 将id和消息关联起来，存到全局缓存中
+        GlobalCache.set(msgId, map);
         // 将同步方式修改为基于RabbitMQ的异步方式
-        rabbitTemplate.convertAndSend(RabbitMQConfig.PLACE_ORDER_EXCHANGE, "", msg.getBytes());
+        rabbitTemplate.convertAndSend(RabbitMQConfig.PLACE_ORDER_EXCHANGE, "", msg.getBytes(), new CorrelationData(msgId));
 
         long end = System.currentTimeMillis();
 

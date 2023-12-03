@@ -15,3 +15,14 @@ spring:
     username: guest
     password: guest
     virtual-host: springcloud
+    publisher-confirm-type: correlated
+    publisher-returns: true
+  datasource:
+    url: jdbc:mysql://8.134.177.106:3306/common_db?serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf-8&characterSetResults=UTF-8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+    username: root
+    password: starbug-docker-mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:*/mappers/*.xml
