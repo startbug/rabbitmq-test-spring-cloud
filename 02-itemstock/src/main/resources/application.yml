@@ -1,0 +1,11 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: itemstock
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.starbug.vip
+        username: nacos
+        password: starbug-docker-nacos

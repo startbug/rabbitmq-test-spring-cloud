@@ -1,0 +1,11 @@
+server:
+  port: 8004
+spring:
+  application:
+    name: coupon
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.starbug.vip
+        username: nacos
+        password: starbug-docker-nacos

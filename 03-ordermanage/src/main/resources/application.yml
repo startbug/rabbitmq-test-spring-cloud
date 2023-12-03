@@ -1,0 +1,11 @@
+server:
+  port: 8003
+spring:
+  application:
+    name: ordermanage
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.starbug.vip
+        username: nacos
+        password: starbug-docker-nacos
